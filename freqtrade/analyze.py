@@ -69,8 +69,19 @@ def populate_indicators(dataframe: DataFrame) -> DataFrame:
     dataframe['minus_di'] = ta.MINUS_DI(dataframe)
     return dataframe
 
-
 def populate_buy_trend(dataframe: DataFrame) -> DataFrame:
+    # Current Best 0.34 / 2.34 / 40.57
+    dataframe.loc[
+        (
+            (dataframe['fastd'] < 44) &
+            (dataframe['rsi'] < 34) &
+            (dataframe['ema50'] > dataframe['ema100'])
+        ),
+        'buy'] = 1
+    return dataframe
+
+
+def populate_buy_trendOrginal(dataframe: DataFrame) -> DataFrame:
     """
     Based on TA indicators, populates the buy signal for the given dataframe
     :param dataframe: DataFrame
